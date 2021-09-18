@@ -18002,14 +18002,18 @@ _inertiajs_progress__WEBPACK_IMPORTED_MODULE_2__.InertiaProgress.init();
   },
   setup: function setup(_ref) {
     var el = _ref.el,
-        app = _ref.app,
+        App = _ref.App,
         props = _ref.props,
         plugin = _ref.plugin;
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
       render: function render() {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(app, props);
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(App, props);
       }
-    }).use(plugin).mount(el);
+    }).use(plugin).component('inertia-link', _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.InertiaLink).mixin({
+      methods: {
+        route: window.route
+      }
+    }).mount(el);
   }
 });
 
@@ -24796,6 +24800,38 @@ var map = {
 	"./Admin/Dashboard.vue": [
 		"./resources/js/Pages/Admin/Dashboard.vue",
 		"resources_js_Pages_Admin_Dashboard_vue"
+	],
+	"./Admin/Home": [
+		"./resources/js/Pages/Admin/Home.vue",
+		"resources_js_Pages_Admin_Home_vue"
+	],
+	"./Admin/Home.vue": [
+		"./resources/js/Pages/Admin/Home.vue",
+		"resources_js_Pages_Admin_Home_vue"
+	],
+	"./Admin/Login": [
+		"./resources/js/Pages/Admin/Login.vue",
+		"resources_js_Pages_Admin_Login_vue"
+	],
+	"./Admin/Login.vue": [
+		"./resources/js/Pages/Admin/Login.vue",
+		"resources_js_Pages_Admin_Login_vue"
+	],
+	"./Admin/Users/User": [
+		"./resources/js/Pages/Admin/Users/User.vue",
+		"resources_js_Pages_Admin_Users_User_vue"
+	],
+	"./Admin/Users/User.vue": [
+		"./resources/js/Pages/Admin/Users/User.vue",
+		"resources_js_Pages_Admin_Users_User_vue"
+	],
+	"./Admin/Users/Users": [
+		"./resources/js/Pages/Admin/Users/Users.vue",
+		"resources_js_Pages_Admin_Users_Users_vue"
+	],
+	"./Admin/Users/Users.vue": [
+		"./resources/js/Pages/Admin/Users/Users.vue",
+		"resources_js_Pages_Admin_Users_Users_vue"
 	]
 };
 function webpackAsyncContext(req) {
@@ -24893,6 +24929,18 @@ module.exports = webpackAsyncContext;
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -24923,7 +24971,7 @@ module.exports = webpackAsyncContext;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + chunkId + ".js?id=" + "d1506973b725bbdc6783" + "";
+/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_Admin_Dashboard_vue":"d1506973b725bbdc6783","resources_js_Pages_Admin_Home_vue":"32f376a74ed6e909a190","resources_js_Pages_Admin_Login_vue":"0e91f90570faf9782595","resources_js_Pages_Admin_Users_User_vue":"5ae3f0f6b4627483f3f2","resources_js_Pages_Admin_Users_Users_vue":"0b20db4e9fc1c2f1e664"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	

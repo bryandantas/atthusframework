@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet"/>
     <script src="{{ mix('/js/app.js') }}" defer></script>
-    <title>Atthus Framework</title>
 </head>
 <body>
+@routes
 <div>@inertia</div>
 </body>
 </html>
