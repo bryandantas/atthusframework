@@ -10,24 +10,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Response as InertiaResponse;
 
 class LoginController extends Controller
 {
-    public function index()
+    /**
+     * @return InertiaResponse
+     */
+    public function index(): InertiaResponse
     {
         return Inertia::render('Admin/Login', [
             'title' => 'Login | Atthus Framework'
         ]);
     }
 
-    public function login(LoginRequest $request)
+    /**
+     * @param LoginRequest $request
+     * @return RedirectResponse
+     */
+    public function login(LoginRequest $request): RedirectResponse
     {
-        $remember = $request->get('remember');
-
-        if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')], $remember)) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember_me)) {
             if(Auth::user()->can(PermissionType::LOGIN_ADMIN)){
+                $request->session()->regenerate();
                 Message::flash('Login realizado com sucesso');
-                return Redirect::route('admin.home');
+
+                return redirect()->intended(route('admin.home'));
             }else{
                 Message::flash('Você não possui permissão para acessar esta área', 'error');
                 return Redirect::back();
@@ -39,7 +48,12 @@ class LoginController extends Controller
         return Redirect::back();
     }
 
-    public function logout(Request $request){
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function logout(Request $request): RedirectResponse
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
