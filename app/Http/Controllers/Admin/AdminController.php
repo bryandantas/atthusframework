@@ -3,18 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class AdminController extends Controller
 {
-    public function index(){
+    /**
+     * @return InertiaResponse
+     */
+    public function index(): InertiaResponse
+    {
         return Inertia::render('Admin/Home', [
             'title' => 'Início',
         ]);
     }
 
-    public function profile()
+    /**
+     * @return RedirectResponse
+     */
+    public function profile(): RedirectResponse
     {
         return Redirect::route('admin.users.user', ['id' => auth()->id()]);
     }
