@@ -8,16 +8,35 @@ use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UserInfoRequest;
 use App\Http\Requests\Admin\UserPasswordRequest;
 use App\Models\User;
+use App\Services\User\UserService;
 use App\Support\Message;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class UserController extends Controller
 {
-    public function index()
+    /**
+     * @var UserService
+     */
+    private UserService $userService;
+
+    /**
+     * @param UserService $userService
+     */
+    public function __construct(UserService $userService)
     {
-        $persons = User::get(['id', 'name', 'email']);
+        $this->userService = $userService;
+    }
+
+    /**
+     * @return InertiaResponse
+     */
+    public function index(): InertiaResponse
+    {
+        $persons = $this->userService->allUsers(['id', 'name', 'email']);
 
         return Inertia::render('Admin/Users/Users', [
             'title' => 'Usuários',
@@ -25,9 +44,13 @@ class UserController extends Controller
         ]);
     }
 
-    public function create(CreateUserRequest $request)
+    /**
+     * @param CreateUserRequest $request
+     * @return RedirectResponse
+     */
+    public function create(CreateUserRequest $request): RedirectResponse
     {
-        return UserBusiness::create($request->all());
+        return $this->userService->createUser($request->all());
     }
 
     public function updateInfo(UserInfoRequest $request)
