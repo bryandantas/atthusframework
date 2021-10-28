@@ -59,15 +59,13 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     /**
      * @param int $userId
      * @param array $data
-     * @return User
+     * @return bool
      * @throws UserUpdateException
      */
-    public function updateInfoUser(int $userId, array $data): User
+    public function updateInfoUser(int $userId, array $data): bool
     {
         try {
-            /** @var User $user */
-            $user = $this->update($userId, $data);
-            return $user;
+            return $this->update($userId, $data);
         } catch (QueryException $exception) {
             Log::error($exception->getMessage());
             throw new UserUpdateException();

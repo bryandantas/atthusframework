@@ -69,6 +69,6 @@ class UserService
             return Redirect::back();
         }
         Message::flash('Informações atualizadas com sucesso');
-        return Redirect::refresh();
+        return Redirect::route('admin.users.user', ['id' => $userId]);;
     }
 }

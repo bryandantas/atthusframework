@@ -25,7 +25,7 @@ interface UserRepositoryInterface extends EloquentRepositoryInterface {
      *
      * @param int $userId
      * @param array $data
-     * @return User
+     * @return bool
      */
-    public function updateInfoUser(int $userId, array $data): User;
+    public function updateInfoUser(int $userId, array $data): bool;
 }
