@@ -28,4 +28,12 @@ interface UserRepositoryInterface extends EloquentRepositoryInterface {
      * @return bool
      */
     public function updateInfoUser(int $userId, array $data): bool;
+
+    /**
+     * Delete a User
+     *
+     * @param int $userId
+     * @return mixed
+     */
+    public function deleteUser(int $userId);
 }

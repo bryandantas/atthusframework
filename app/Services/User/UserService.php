@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Enums\RolesType;
 use App\Exceptions\User\UserCreateException;
+use App\Exceptions\User\UserDeleteException;
 use App\Exceptions\User\UserPasswordUpdateException;
 use App\Exceptions\User\UserUpdateException;
 use App\Models\User;
@@ -96,5 +97,21 @@ class UserService
         }
         Message::flash('Senha atualizada com sucesso');
         return Redirect::route('admin.users.user', ['id' => $user->id]);
+    }
+
+    /**
+     * @param int $userId
+     * @return RedirectResponse
+     */
+    public function deleteUser(int $userId): RedirectResponse
+    {
+        try {
+            $this->userRepository->deleteUser($userId);
+        } catch (UserDeleteException $exception) {
+            Message::flash($exception->getMessage(), 'error');
+            return Redirect::back();
+        }
+        Message::flash('Usuário excluído com sucesso');
+        return Redirect::route('admin.users');
     }
 }

@@ -5,12 +5,11 @@ namespace App\Repository\Eloquent\User;
 
 
 use App\Exceptions\User\UserCreateException;
+use App\Exceptions\User\UserDeleteException;
 use App\Exceptions\User\UserUpdateException;
 use App\Models\User;
 use App\Repository\Eloquent\BaseRepository;
 use App\Repository\Interfaces\User\UserRepositoryInterface;
-use App\Support\Message;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 
@@ -69,6 +68,21 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         } catch (QueryException $exception) {
             Log::error($exception->getMessage());
             throw new UserUpdateException();
+        }
+    }
+
+    /**
+     * @param int $userId
+     * @return bool
+     * @throws UserDeleteException
+     */
+    public function deleteUser(int $userId): bool
+    {
+        try {
+            return $this->deleteById($userId);
+        } catch (QueryException $exception) {
+            Log::error($exception->getMessage());
+            throw new UserDeleteException();
         }
     }
 }
