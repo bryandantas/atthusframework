@@ -53,10 +53,13 @@ class UserController extends Controller
         return $this->userService->createUser($request->all());
     }
 
-    public function updateInfo(UserInfoRequest $request)
+    /**
+     * @param UserInfoRequest $request
+     * @return RedirectResponse
+     */
+    public function updateInfo(UserInfoRequest $request): RedirectResponse
     {
-        $user = User::find($request->route('id'));
-        return UserBusiness::updateInfo($user, $request->all());
+        return $this->userService->updateInfoUser($request->route('id'), $request->all());
     }
 
     public function updatePassword(UserPasswordRequest $request)

@@ -19,4 +19,13 @@ interface UserRepositoryInterface extends EloquentRepositoryInterface {
      * @return mixed
      */
     public function createUser(array $data): User;
+
+    /**
+     * Update a User
+     *
+     * @param int $userId
+     * @param array $data
+     * @return User
+     */
+    public function updateInfoUser(int $userId, array $data): User;
 }

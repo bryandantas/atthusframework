@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Enums\RolesType;
 use App\Exceptions\User\UserCreateException;
+use App\Exceptions\User\UserUpdateException;
 use App\Repository\Interfaces\User\UserRepositoryInterface;
 use App\Support\Message;
 use Illuminate\Database\Eloquent\Collection;
@@ -52,5 +53,22 @@ class UserService
         Message::flash('Usuário criado com sucesso!');
 
         return Redirect::route('admin.users.user', ['id' => $user->id]);
+    }
+
+    /**
+     * @param int $userId
+     * @param array $data
+     * @return RedirectResponse
+     */
+    public function updateInfoUser(int $userId, array $data): RedirectResponse
+    {
+        try {
+            $this->userRepository->updateInfoUser($userId, $data);
+        } catch (UserUpdateException $exception) {
+            Message::flash($exception->getMessage());
+            return Redirect::back();
+        }
+        Message::flash('Informações atualizadas com sucesso');
+        return Redirect::refresh();
     }
 }
