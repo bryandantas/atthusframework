@@ -231,7 +231,9 @@ export default {
             this.infoForm.patch(route('admin.users.user.update_info', {id: this.user.id}));
         },
         updatePassword() {
-            this.passwordForm.patch(route('admin.users.user.update_password', {id: this.user.id}));
+            this.passwordForm.patch(route('admin.users.user.update_password', {id: this.user.id}), {
+                onSuccess: () => this.passwordForm.reset(),
+            });
         },
         excludeUser() {
             Inertia.delete(route('admin.users.user.delete', {id: this.user.id}))

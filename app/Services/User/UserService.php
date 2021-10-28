@@ -4,10 +4,13 @@ namespace App\Services\User;
 
 use App\Enums\RolesType;
 use App\Exceptions\User\UserCreateException;
+use App\Exceptions\User\UserPasswordUpdateException;
 use App\Exceptions\User\UserUpdateException;
+use App\Models\User;
 use App\Repository\Interfaces\User\UserRepositoryInterface;
 use App\Support\Message;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\Http\RedirectResponse;
@@ -46,7 +49,7 @@ class UserService
         try {
             $user = $this->userRepository->createUser($data);
         } catch (UserCreateException $exception) {
-            Message::flash($exception->getMessage());
+            Message::flash($exception->getMessage(), 'error');
             return Redirect::back();
         }
         $user->assignRole(RolesType::USER);
@@ -65,10 +68,33 @@ class UserService
         try {
             $this->userRepository->updateInfoUser($userId, $data);
         } catch (UserUpdateException $exception) {
-            Message::flash($exception->getMessage());
+            Message::flash($exception->getMessage(), 'error');
             return Redirect::back();
         }
         Message::flash('Informações atualizadas com sucesso');
         return Redirect::route('admin.users.user', ['id' => $userId]);;
+    }
+
+    /**
+     * @param User $user
+     * @param array $data
+     * @return RedirectResponse
+     */
+    public function updatePasswordUser(User $user, array $data): RedirectResponse
+    {
+        if (!Hash::check($data['password'], $user->getAuthPassword())) {
+            Message::flash('Senha atual informada está incorreta', 'error');
+            return Redirect::back();
+        }
+
+        $data['password'] = Hash::make($data['password']);
+        try {
+            $this->userRepository->updateInfoUser($user->id, $data);
+        } catch (UserPasswordUpdateException $exception) {
+            Message::flash($exception->getMessage(), 'error');
+            return Redirect::back();
+        }
+        Message::flash('Senha atualizada com sucesso');
+        return Redirect::route('admin.users.user', ['id' => $user->id]);
     }
 }

@@ -62,10 +62,13 @@ class UserController extends Controller
         return $this->userService->updateInfoUser($request->route('id'), $request->all());
     }
 
-    public function updatePassword(UserPasswordRequest $request)
+    /**
+     * @param UserPasswordRequest $request
+     * @return RedirectResponse
+     */
+    public function updatePassword(UserPasswordRequest $request): RedirectResponse
     {
-        $user = User::find($request->route('id'));
-        return UserBusiness::updatePassword($user, $request->all());
+        return $this->userService->updatePasswordUser(auth()->user(), $request->all());
     }
 
     public function view(Request $request)
