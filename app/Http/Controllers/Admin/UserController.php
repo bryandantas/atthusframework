@@ -86,9 +86,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function delete(Request $request)
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function delete(Request $request): RedirectResponse
     {
-        $user = User::find($request->route('id'));
-        return UserBusiness::delete($user);
+        return $this->userService->deleteUser($request->route('id'));
     }
 }
