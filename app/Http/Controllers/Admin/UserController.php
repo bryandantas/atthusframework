@@ -71,12 +71,15 @@ class UserController extends Controller
         return $this->userService->updatePasswordUser(auth()->user(), $request->all());
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse|InertiaResponse
+     */
     public function view(Request $request)
     {
-        $user = User::find($request->route('id'));
+        $user = $this->userService->find($request->route('id'));
 
         if(!$user){
-            Message::flash('Usuário não encontrado', 'error');
             return Redirect::route('admin.users');
         }
 

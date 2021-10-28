@@ -5,6 +5,7 @@ namespace App\Services\User;
 use App\Enums\RolesType;
 use App\Exceptions\User\UserCreateException;
 use App\Exceptions\User\UserDeleteException;
+use App\Exceptions\User\UserNotFoundException;
 use App\Exceptions\User\UserPasswordUpdateException;
 use App\Exceptions\User\UserUpdateException;
 use App\Models\User;
@@ -29,6 +30,20 @@ class UserService
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
+    }
+
+    /**
+     * @param int $id
+     * @return User|null
+     */
+    public function find(int $id): ?User
+    {
+        try {
+            return $this->userRepository->find($id);
+        } catch (UserNotFoundException $exception) {
+            Message::flash($exception->getMessage(), 'error');
+            return null;
+        }
     }
 
     /**

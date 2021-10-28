@@ -35,5 +35,7 @@ interface UserRepositoryInterface extends EloquentRepositoryInterface {
      * @param int $userId
      * @return mixed
      */
-    public function deleteUser(int $userId);
+    public function deleteUser(int $userId): bool;
+
+    public function find(int $id): User;
 }
